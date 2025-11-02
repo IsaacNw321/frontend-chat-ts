@@ -121,7 +121,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 4rem 2rem;
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
   text-align: center;
   border-radius: 10px;
 }

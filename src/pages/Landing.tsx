@@ -1,6 +1,7 @@
 import "../styles/Landing.css"
 import Logo from "../assets/images/jose-r.jpg"
 import supportChat from "../assets/images/supportChat.png"
+import { Register } from "../sessions/Register";
 export default function LandingPage() {
    const year = new Date().getFullYear();
   return (
@@ -70,7 +71,7 @@ export default function LandingPage() {
     </h3>
  </section>
   <section className="join-section">
-    <h2>Únete a Nuestra Comunidad de Apoyo</h2>
+    <Register/>
   </section>
 </main>
 <footer className="footer">
