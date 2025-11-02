@@ -26,7 +26,7 @@
 }
 
 .loginContainer{
-  background-color: #1a202c;
+  background-color: var(--primary-color);
   width: 100%;
   height: 100vh;
   display: flex;
@@ -43,7 +43,9 @@
   min-height: 80vh;
   width: 480px;
   background-color: #1a202c;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 10px;
+   border-radius: 8px;
 }
 
 .authForm {
@@ -51,10 +53,8 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #82bcd4;
   padding: 16px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
 }
@@ -66,6 +66,7 @@
 .formField label {
   display: block;
   margin-bottom: 0.5rem;
+  text-align: left;
   color: #e2e8f0;
   font-weight: 500;
 }
@@ -74,11 +75,16 @@
   width: 340px;
   padding: 0.75rem;
   border: 1px solid #4a5568;
-  border-radius: 4px;
+  border-radius: 16px;
   background-color: #2d3748;
   color: #e2e8f0;
   font-size: 1rem;
   transition: border-color 0.3s ease;
+}
+
+.formTitle{
+  margin-bottom: 20px;
+  font-size: 30px;
 }
 
 .formField input:focus {
@@ -100,15 +106,16 @@
 }
 
 .authButton {
-  width: 100%;
+  width: 90%;
+  margin-top: 14px;
   padding: 0.75rem;
   background-color: var(--secondary-color);
   color: #ffffff;
   font-size: 1rem;
   font-weight: 600;
-  border: none;
-  border-radius: 4px;
+  border-radius: 16px;
   cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(8, 54, 97, 0.3);
   transition: background-color 0.3s ease;
   display: flex;
   justify-content: center;
