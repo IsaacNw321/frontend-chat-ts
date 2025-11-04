@@ -1,27 +1,52 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { loginSchema, type LoginFormFields } from '../validations/loginSchema';
+import { loginUser } from '../utils/users';
+import { useNavigate } from 'react-router-dom';
 import "../styles/sessions.css"; 
 
 export const Login = () => {
+  const navigate = useNavigate()
   const {
     register, 
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting }, 
   } = useForm<LoginFormFields>({
     resolver: zodResolver(loginSchema),
   });
 
+  const loginMutation = useMutation({
+    mutationFn: (data: LoginFormFields) => loginUser(data),
+    onSuccess: (data) => {
+      console.log("Login exitoso. Respuesta de la API:", data);
+      reset()
+      navigate("/dashboard")
+    },
+    onError: (error) => {
+      console.error("Error durante el login:", error);
+    },
+  });
+
+  const isPending = isSubmitting || loginMutation.isPending;
+  const isError = loginMutation.isError;
+  const error = loginMutation.error as Error | null;
+
   const onSubmit = (data: LoginFormFields) => {
-    console.log("Formulario válido. Datos a enviar:", data);
-    
+    loginMutation.mutate(data);
   };
 
   return (
     <section className='loginContainer'>
       <div className='formContainer'>
-        <form className='authForm' onSubmit={handleSubmit(onSubmit)}>
+        <form className='authForm' onSubmit={handleSubmit(onSubmit)} noValidate>
           <h2 className='formTitle'>Iniciar Sesión</h2>
+          {isError && (
+            <p className='errorText'>
+              {error?.message || "Correo o contraseña incorrectos."}
+            </p>
+          )}
           <div className='formField'>
             <label htmlFor="email">Correo</label>
             <input 
@@ -45,12 +70,12 @@ export const Login = () => {
           <button 
             className='authButton' 
             type="submit"
-            disabled={isSubmitting}
+            disabled={isPending}
           >
-            {isSubmitting ? 'Iniciando...' : 'Iniciar Sesión'}
+            {isPending ? 'Iniciando...' : 'Iniciar Sesión'}
           </button>
         </form>
       </div>
     </section>
-  );  
+  );
 }
