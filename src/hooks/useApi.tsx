@@ -15,7 +15,7 @@ export const useApiQuery = <
   TData = TQueryFnData,
 >(
 
-  queryKey: QueryKey,
+  queryKey: string,
   queryFn: () => Promise<TQueryFnData>,
   options?: Omit<
     UseQueryOptions<TQueryFnData, TError, TData, QueryKey>,

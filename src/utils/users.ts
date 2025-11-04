@@ -1,33 +1,36 @@
 import axios from "axios";
-import type { User } from "../types";
+import type { postUser, User } from "../types";
 import type { LoginFormFields } from "../validations/loginSchema";
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:3000',
   withCredentials: true, 
 });
-export const getUsers = async () =>{
-  const users =  await apiClient.get("/users") 
-  return users.status === 200 ? 
-  users.data : 
-  users.statusText
-}
+export const getUsers = async (): Promise<User[]> => {
+  const response = await apiClient.get<User[]>("/users");
+  if (response.status !== 200) {
+    throw new Error(response.statusText || "Failed to fetch users");
+  }
+  return response.data;
+};
 
-export const getUserById = async (id: string) =>{
-  const  user = await apiClient.get(`/users/${id}`) 
-  return user.status === 200 ? 
-    user.data : 
-    user.statusText;
-}
+export const getUserById = async (id: string): Promise<User> => {
+  const response = await apiClient.get<User>(`/users/${id}`);
+  if (response.status !== 200) {
+    throw new Error(response.statusText || "Failed to fetch user");
+  }
+  return response.data;
+};
 
-export const createUser = async (User : User) =>{
-  const newUser = await apiClient.post("/auth/signup", User)
-  return newUser.status === 201 ? 
-  newUser.headers  :
-  newUser.statusText
-}
+export const createUser = async (user: postUser): Promise<User> => {
+  const response = await apiClient.post<User>("/auth/signup", user);
+  if (response.status !== 201) {
+    throw new Error(response.statusText || "Failed to create user");
+  }
+  return response.data;
+};
 
-export const loginUser = async (credentials: LoginFormFields) => {
+export const loginUser = async (credentials: LoginFormFields): Promise<any> => {
   const response = await apiClient.post("/auth/login", credentials);
   if (response.status !== 200) {
     throw new Error(response.statusText || "Login failed");
@@ -35,14 +38,19 @@ export const loginUser = async (credentials: LoginFormFields) => {
   return response.data;
 };
 
-export const deleteUser = async (id :string) =>{
-  const deletedUser = await apiClient.delete(`/users/${id}`) 
-  return deletedUser.status === 200 ?
-    deletedUser.status : 
-    deletedUser.statusText
-}
+export const deleteUser = async (id: string): Promise<void> => {
+  const response = await apiClient.delete(`/users/${id}`);
+  if (response.status !== 200 && response.status !== 204) {
+    throw new Error(response.statusText || "Failed to delete user");
+  }
+};
 
-export const pathcUser = async (id :string, data : User) =>{
-  const updateddUser = await apiClient.patch(`/users/${id}`,data) 
-  return updateddUser
+
+export const patchUser = async (id: string, data: Partial<User>): Promise<User> => {
+  const response = await apiClient.patch<User>(`/users/${id}`, data);
+  if (response.status !== 200) {
+    throw new Error(response.statusText || "Failed to update user");
+  }
+  return response.data;
+
 }
