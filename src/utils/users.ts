@@ -1,7 +1,9 @@
 import axios from "axios";
 import type { User } from "../types";
+import type { LoginFormFields } from "../validations/loginSchema";
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000', 
+  baseURL: 'http://localhost:3000',
   withCredentials: true, 
 });
 export const getUsers = async () =>{
@@ -24,6 +26,14 @@ export const createUser = async (User : User) =>{
   newUser.headers  :
   newUser.statusText
 }
+
+export const loginUser = async (credentials: LoginFormFields) => {
+  const response = await apiClient.post("/auth/login", credentials);
+  if (response.status !== 200) {
+    throw new Error(response.statusText || "Login failed");
+  }
+  return response.data;
+};
 
 export const deleteUser = async (id :string) =>{
   const deletedUser = await apiClient.delete(`/users/${id}`) 

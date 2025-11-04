@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query"; 
 import "../styles/sessions.css";
 import { registerSchema, type RegisterFormValues } from "../validations/registerSchema";
+import { createUser } from "../utils/users";
+import { useNavigate } from "react-router-dom";
+
 
 export const Register = () => {
+   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,10 +18,25 @@ export const Register = () => {
     resolver: zodResolver(registerSchema),
     mode: "onBlur",
   });
+  
+  const registerMutation = useMutation({
+    mutationFn: (data: RegisterFormValues) => createUser(data),
+    
+    onSuccess: (user, variables) => {
+      console.log("Registro exitoso. Respuesta de la API:", user, variables);
+      reset(); 
+      navigate("/login"); 
+    },
+    onError: (error) => {
+      console.error("Error durante el registro:", error);
+    },
+  });
+  const isPending = isSubmitting || registerMutation.isPending;
+  const isError = registerMutation.isError;
+  const error = registerMutation.error;
 
   const onSubmit = (data: RegisterFormValues) => {
-    console.log("register submit", data);
-    reset();
+    registerMutation.mutate(data);
   };
 
   return (
@@ -24,15 +44,19 @@ export const Register = () => {
       <div className='formContainer'>
         <form className='authForm' onSubmit={handleSubmit(onSubmit)} noValidate>
           <h2 className='formTitle'>Unete a nuestra comunidad de apoyo</h2>
+          {isError && (
+            <span className='errorMessage'>
+              Error al registrar: {error?.message || "Algo salió mal."}
+            </span>
+          )}
 
           <div className='formField'>
-            <label htmlFor="name">Nombre</label>
-            <input id="name" type="text" {...register("name")} />
-            {errors.name && (
-              <span className='errorMessage'>{errors.name.message}</span>
+            <label htmlFor="firstName">Nombre</label>
+            <input id="firstName" type="text" {...register("firstName")} />
+            {errors.firstName && (
+              <span className='errorMessage'>{errors.firstName.message}</span>
             )}
           </div>
-
           <div className='formField'>
             <label htmlFor="lastName">Apellido</label>
             <input id="lastName" type="text" {...register("lastName")} />
@@ -40,7 +64,6 @@ export const Register = () => {
               <span className='errorMessage'>{errors.lastName.message}</span>
             )}
           </div>
-
           <div className='formField'>
             <label htmlFor="email">Correo</label>
             <input id="email" type="email" {...register("email")} />
@@ -48,7 +71,6 @@ export const Register = () => {
               <span className='errorMessage'>{errors.email.message}</span>
             )}
           </div>
-
           <div className='formField'>
             <label htmlFor="password">Contraseña</label>
             <input id="password" type="password" {...register("password")} />
@@ -57,8 +79,9 @@ export const Register = () => {
             )}
           </div>
 
-          <button className='authButton' type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Enviando..." : "Registrarse"}
+
+          <button className='authButton' type="submit" disabled={isPending}>
+            {isPending ? "Enviando..." : "Registrarse"}
           </button>
         </form>
       </div>
