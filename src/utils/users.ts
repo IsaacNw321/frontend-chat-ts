@@ -2,10 +2,18 @@ import axios from "axios";
 import type { postUser, User } from "../types";
 import type { LoginFormFields } from "../validations/loginSchema";
 
-const apiClient = axios.create({
+
+export const apiClient = axios.create({
   baseURL: 'http://localhost:3000',
   withCredentials: true, 
+
 });
+
+export const axiosPrivate = axios.create({
+  baseURL : 'http://localhost:3000',
+  withCredentials : true
+})
+
 export const getUsers = async (): Promise<User[]> => {
   const response = await apiClient.get<User[]>("/users");
   if (response.status !== 200) {

@@ -1,18 +1,35 @@
 import { useApiQuery } from "../hooks/useApi";
 import type { User } from "../types";
-import { getUsers } from "../utils/users";
 import { ButtonsCard } from "./ButtonsCard";
-
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 export const UserList = () => {
-
+    const navigate = useNavigate();
+    const controller = new AbortController()
+      const axiosPrivate = useAxiosPrivate();
+    const getUsers = async() =>{
+      const users = await axiosPrivate.get('/users',{
+        signal : controller.signal
+      })
+      return  users.data
+    }
+    
     const { data: users, isLoading, isError } = useApiQuery('users', getUsers); 
     
+    useEffect(() => {
+        if (isError) {
+            navigate('/');
+        }
+        console.log(users, "I'm getting")
+    }, [isError, navigate]);
     if (isLoading) {
         return <div className="user-list-status">Cargando usuarios...</div>;
     }
     
     if (isError) {
         return <div className="user-list-status user-list-error">Ha habido un error al cargar los usuarios.</div>;
+        
     }
 
     if (!users || users.length === 0) {

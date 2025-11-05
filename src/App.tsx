@@ -4,6 +4,9 @@ import LandingPage from './pages/Landing'
 import Navigation from './components/Nav'
 import { Login } from './sessions/Login'
 import { Dashboard } from './pages/Dashboard'
+import PersistLogin from './components/PersistLogin'
+import { Register } from './sessions/Register'
+
 function App() {
 
   return (
@@ -12,7 +15,10 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage/>} />
         <Route path='/login' element={<Login/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/register' element={<Register/>}/>
+        <Route element={<PersistLogin/>}>
+          <Route path='/dashboard' element={<Dashboard/>} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
