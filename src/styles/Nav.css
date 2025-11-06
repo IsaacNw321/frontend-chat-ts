@@ -12,12 +12,16 @@
   box-sizing: border-box;
   border: 2px solid #1a202c;
   border-radius: 10px;
+  gap: 20px;
 }
 
 .nav-brand {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
 }
 
 .nav-brand a {
@@ -39,11 +43,24 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  margin-right: 30px;
+  font-size: 1.2rem;
 }
 
-.nav-menu li a:hover {
-  color: var(--secondary-color);
+.button {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  background-color: transparent;
+  border: none;
+  font-size: 1.1rem
 }
+
+.button:hover {
+  cursor: pointer;
+}
+
 
 .nav-toggle {
   display: none;

@@ -5,8 +5,11 @@ import { loginSchema, type LoginFormFields } from '../validations/loginSchema';
 import { loginUser } from '../utils/users';
 import { useNavigate } from 'react-router-dom';
 import "../styles/sessions.css"; 
+import useAuth from '../hooks/useAuth';
+
 
 export const Login = () => {
+  const { setAuth} = useAuth()
   const navigate = useNavigate()
   const {
     register, 
@@ -19,8 +22,9 @@ export const Login = () => {
 
   const loginMutation = useMutation({
     mutationFn: (data: LoginFormFields) => loginUser(data),
-    onSuccess: (data) => {
-      console.log("Login exitoso. Respuesta de la API:", data);
+    onSuccess: (response) => {
+      console.log("Login exitoso. Respuesta de la API:", response);
+      setAuth(response)
       reset()
       navigate("/dashboard")
     },

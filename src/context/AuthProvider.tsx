@@ -1,0 +1,45 @@
+import { useState, createContext, type Dispatch, type SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
+import { apiClient } from "../utils/users";
+interface AuthState {
+    access_token?: string ;
+}
+export interface AuthContextType {
+    auth: AuthState;
+    setAuth: Dispatch<SetStateAction<AuthState>>;
+    handleLogout: () => Promise<void>; 
+    id?: string | null;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null);
+
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+    const [auth, setAuth] = useState<AuthState>({ access_token: 'MOCK_TOKEN_123' });
+    const navigate = useNavigate();
+    
+    const handleLogout = async () => {
+        try {
+            console.log("Logout initiated: Calling /auth/logout to clear HTTP-only cookie...");
+            const response = await apiClient.post('/auth/logout'); 
+            console.log(response)
+            setAuth({}); 
+            navigate('/');
+        } catch (err) {
+            console.error("Logout API failed (Cookie might not have cleared):", err);
+            setAuth({}); 
+            navigate('/');
+        }
+    };
+
+    return (
+        <AuthContext.Provider value={{
+            auth,
+            setAuth,
+            handleLogout
+        } as AuthContextType}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export default AuthProvider;
