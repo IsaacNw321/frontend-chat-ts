@@ -4,6 +4,7 @@ import useAuth from "./useAuth";
 import useRefreshToken from "./useRefreshToken";
 const useAxiosPrivate = () => {
     const { auth } = useAuth();
+    console.log(auth, "from USEaxios")
     const refresh = useRefreshToken();
 
     useEffect(() => {

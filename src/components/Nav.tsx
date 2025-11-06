@@ -22,7 +22,6 @@ function Navigation() {
     <nav className="nav-bar">
       <div className="nav-brand">
         <Link to="/">Inicio</Link>
-        {isLoggedIn ? <Link to="/dashboard">Empezar a chatear</Link> : null}
       </div>
       <button className="nav-toggle" onClick={toggleMenu}>
         <span></span>
@@ -31,9 +30,10 @@ function Navigation() {
       </button>
       <ul className={`nav-menu ${menuActive ? "active" : ""}`}>
         <li>
+          {isLoggedIn ? <Link to="/dashboard">Empezar a chatear</Link> : null}
           {
             isLoggedIn ? 
-            <button onClick={onLogout} className="nav-logout-button">
+            <button onClick={onLogout} className="button">
               Cerrar Sesión
             </button>
             :

@@ -1,27 +1,26 @@
 import { useState, createContext, type Dispatch, type SetStateAction } from "react";
-
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { apiClient } from "../utils/users";
 interface AuthState {
-    access_token?: string;
-    [key: string]: any; 
+    access_token?: string ;
 }
-  const axiosPrivate = useAxiosPrivate()
 export interface AuthContextType {
     auth: AuthState;
     setAuth: Dispatch<SetStateAction<AuthState>>;
     handleLogout: () => Promise<void>; 
+    id?: string | null;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [auth, setAuth] = useState<AuthState>({ access_token: 'MOCK_TOKEN_123' });
     const navigate = useNavigate();
+    
     const handleLogout = async () => {
         try {
             console.log("Logout initiated: Calling /auth/logout to clear HTTP-only cookie...");
-            const response = await axiosPrivate.post('/auth/logout');
+            const response = await apiClient.post('/auth/logout'); 
             console.log(response)
             setAuth({}); 
             navigate('/');
@@ -37,7 +36,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             auth,
             setAuth,
             handleLogout
-        }}>
+        } as AuthContextType}>
             {children}
         </AuthContext.Provider>
     );
