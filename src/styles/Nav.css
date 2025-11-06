@@ -12,6 +12,7 @@
   box-sizing: border-box;
   border: 2px solid #1a202c;
   border-radius: 10px;
+  gap: 20px;
 }
 
 .nav-brand {
@@ -35,6 +36,13 @@
 }
 
 .nav-menu li a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-menu button {
   color: var(--text-color);
   text-decoration: none;
   font-weight: 500;

@@ -9,7 +9,7 @@ import useAuth from '../hooks/useAuth';
 
 
 export const Login = () => {
-  const {auth , setAuth} = useAuth()
+  const { setAuth} = useAuth()
   const navigate = useNavigate()
   const {
     register, 
@@ -24,12 +24,9 @@ export const Login = () => {
     mutationFn: (data: LoginFormFields) => loginUser(data),
     onSuccess: (response) => {
       console.log("Login exitoso. Respuesta de la API:", response);
-      const accesstoken = response.access_token
-      console.log("Si tomaste el ", accesstoken)
-      setAuth(accesstoken)
+      setAuth(response)
       reset()
       navigate("/dashboard")
-      console.log(auth)
     },
     onError: (error) => {
       console.error("Error durante el login:", error);

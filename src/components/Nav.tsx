@@ -1,16 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Nav.css";
-
+import useAuth from "../hooks/useAuth"; 
 function Navigation() {
   const [menuActive, setMenuActive] = useState(false);
+  const { handleLogout} = useAuth()
+   
+  const { auth } = useAuth();
+  const isLoggedIn = !!auth?.access_token;
+
   const toggleMenu = () => {
     setMenuActive(!menuActive);
   };
+  
+  const onLogout = () => {
+    handleLogout();
+    setMenuActive(false);
+  };
+
   return (
     <nav className="nav-bar">
       <div className="nav-brand">
         <Link to="/">Inicio</Link>
+        {isLoggedIn ? <Link to="/dashboard">Empezar a chatear</Link> : null}
       </div>
       <button className="nav-toggle" onClick={toggleMenu}>
         <span></span>
@@ -18,10 +30,19 @@ function Navigation() {
         <span></span>
       </button>
       <ul className={`nav-menu ${menuActive ? "active" : ""}`}>
-    <li>
-      <Link to="/login">Iniciar Sesion</Link>
-    </li>
-</ul>
+        <li>
+          {
+            isLoggedIn ? 
+            <button onClick={onLogout} className="nav-logout-button">
+              Cerrar Sesión
+            </button>
+            :
+            <Link to="/login" onClick={() => setMenuActive(false)}>
+              Iniciar Sesión
+            </Link>
+          }
+        </li>
+      </ul>
     </nav>
   );
 }
