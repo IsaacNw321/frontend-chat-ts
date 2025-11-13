@@ -42,7 +42,7 @@ export const UserList = () => {
                 {users.map((user: User) => (
                     <li key={user.id} className="user-card">
                         <div className="card-header">
-                            <h3 className="user-name">{user.firstName} {user.lastName || ''}</h3>
+                            <h3 className="user-name">{user.userName}</h3>
                             <ButtonsCard userId={user.id}/>
                         </div>
                     </li>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-//import { UserChat } from './UserChat';
+import { UserChat } from './Userchat';
 import { getUserById } from '../utils/users';
 //import { createChat } from '../utils/chat';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -52,9 +52,10 @@ const Chat = () => {
   return (
     <div className='loginContainer'>
       <div className='chat-container'>
-      <h2>{user1?.firstName && user2?.firstName !== undefined 
-        ? `Chat entre ${user1.firstName} y ${user2.firstName}` 
+      <h2>{user1?.userName && user2?.userName !== undefined 
+        ? `Chat entre ${user1.userName} y ${user2.userName}` 
         : null}  </h2>
+        <UserChat/>
       <button className='backButton' onClick={() => navigate('/dashboard')}>
         Regresar
       </button>

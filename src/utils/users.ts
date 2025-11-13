@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { postUser, User } from "../types";
+import type { postUser, User, updateUser } from "../types";
 import type { LoginFormFields } from "../validations/loginSchema";
 
 
@@ -54,11 +54,10 @@ export const deleteUser = async (id: string): Promise<void> => {
 };
 
 
-export const patchUser = async (id: string, data: Partial<User>): Promise<User> => {
+export const patchUser = async (id: string, data: updateUser): Promise<User> => {
   const response = await apiClient.patch<User>(`/users/${id}`, data);
   if (response.status !== 200) {
     throw new Error(response.statusText || "Failed to update user");
   }
   return response.data;
-
 }

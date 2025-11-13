@@ -5,7 +5,6 @@ interface ButtonsCard {
 }
 export const ButtonsCard = ({ userId  } : ButtonsCard) => {
   const {id} = useAuth()
-  console.log(userId, "mY ID")
     const handleDelete = () => {
         alert(`Confirm delete for user ID: ${userId}`);
     };

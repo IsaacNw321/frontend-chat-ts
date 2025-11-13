@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-//import io from 'socket.io-client';
+import io from 'socket.io-client';
 //import { createMessage } from '../utils/messages';
 //import { getChatById } from '../utils/chat';
 
-//const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
-
+const socket = io(`${import.meta.env.VITE_BACKEND_URL_WEBSOCKET}`);
+console.log(socket)
 export const UserChat = ({ chatId } : any) => {
    
   const [message, setMessage] = useState('');
@@ -15,10 +15,10 @@ export const UserChat = ({ chatId } : any) => {
     }
   ]);
   useEffect(() => {
-   // socket.emit('joinRoom', { roomId: chatId });
+   socket.emit('joinRoom', { roomId: chatId });
 
     return () => {
-   //   socket.emit('leaveRoom', { roomId: chatId });
+    socket.emit('leaveRoom', { roomId: chatId });
     };
   }, [chatId]);
 
