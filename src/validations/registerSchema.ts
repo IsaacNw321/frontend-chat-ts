@@ -1,13 +1,9 @@
 import z from "zod";
 export const registerSchema = z.object({
-  firstName: z
+  userName: z
     .string()
     .min(2, "El nombre debe tener al menos 2 caracteres")
     .max(50, "El nombre es demasiado largo"),
-  lastName: z
-    .string()
-    .min(2, "El apellido debe tener al menos 2 caracteres")
-    .max(50, "El apellido es demasiado largo"),
   email: z
     .string()
     .email("Correo inválido"),

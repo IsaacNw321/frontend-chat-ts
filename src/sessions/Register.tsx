@@ -51,17 +51,10 @@ export const Register = () => {
           )}
 
           <div className='formField'>
-            <label htmlFor="firstName">Nombre</label>
-            <input id="firstName" type="text" {...register("firstName")} />
-            {errors.firstName && (
-              <span className='errorMessage'>{errors.firstName.message}</span>
-            )}
-          </div>
-          <div className='formField'>
-            <label htmlFor="lastName">Apellido</label>
-            <input id="lastName" type="text" {...register("lastName")} />
-            {errors.lastName && (
-              <span className='errorMessage'>{errors.lastName.message}</span>
+            <label htmlFor="userName">Nombre</label>
+            <input id="userName" type="text" {...register("userName")} />
+            {errors.userName && (
+              <span className='errorMessage'>{errors.userName.message}</span>
             )}
           </div>
           <div className='formField'>
