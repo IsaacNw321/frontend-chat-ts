@@ -1,12 +1,14 @@
 import axios from "axios";
 import type { postUser, User, updateUser } from "../types";
 import type { LoginFormFields } from "../validations/loginSchema";
-
+import * as qs from 'qs';
 
 export const apiClient = axios.create({
   baseURL: 'http://localhost:3000',
   withCredentials: true, 
-
+  paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'repeat' });
+  }
 });
 
 export const axiosPrivate = axios.create({

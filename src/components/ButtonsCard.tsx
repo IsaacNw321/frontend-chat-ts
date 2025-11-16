@@ -10,7 +10,8 @@ export const ButtonsCard = ({ userId  } : ButtonsCard) => {
     };
     const navigate = useNavigate()
        const startChat = (userId : string) => {
-          navigate('/chat', { state: { userId1: id, userId2: userId } });
+          const userIdsArray = [id, userId]; 
+          navigate('/chat', { state: { userIds: userIdsArray } });
        };
     return (
         <div className="card-actions">
