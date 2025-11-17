@@ -36,6 +36,18 @@
   border-radius: 10px;
 }
 
+.Container{
+  background-color: var(--secondary-color);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+
 .formContainer {
   display: flex;
   justify-content: center;
@@ -205,11 +217,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 80vh;
+  height: 90vh;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  background-color: #2d3748;
+  background-color: var(--secondary-color);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -246,7 +258,7 @@
 .message-form {
   display: flex;
   padding: 1rem;
-  background-color: #1a202c;
+  background-color: var(--secondary-color);
 }
 
 .message-input {

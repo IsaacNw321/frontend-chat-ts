@@ -75,26 +75,20 @@ export const UserChat = ({ chatId, currentUser, allUsers }: UserChatProps) => {
     if (!messageBody || !chatId || !currentUser?.id) return;
     const messagePayload = { 
         chatId: chatId, 
-        fromId: currentUser?.id, 
+        fromId: currentUser.id,
         body: messageBody 
     };
-    socket.emit('sendMessage', messagePayload);
-    const localMessage = {
-        ...messagePayload, 
-        from: "Yo",
-        createdAt: new Date().toISOString()
-    };
-    setMessages((prevMessages) => [...prevMessages, localMessage]);
+    socket.emit('sendMessage', messagePayload);  
     setMessage('');
     try {
         await sendMessage(messagePayload); 
-        
     } catch (error) {
         console.error("Failed to persist message via API:", error);
     }
 };
 
     return (
+        <>
         <div className="chat-container">
             <ul className="messages-list">
                 {messages.map((msg, index) => (
@@ -127,5 +121,6 @@ export const UserChat = ({ chatId, currentUser, allUsers }: UserChatProps) => {
                 </button>
             </form>
         </div>
+        </>
     );
 };

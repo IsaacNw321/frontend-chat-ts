@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UserChat } from './Userchat';
 import { createChat } from '../utils/chats';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getChatByUsers } from '../utils/chats'; 
 import '../styles/sessions.css'
 import { type ChatWitUsers, type User } from '../types';
@@ -13,7 +13,6 @@ interface ChatLocationState {
 const Chat = () => {
     const {id} = useAuth()
     const location = useLocation();
-    const navigate = useNavigate();
     const { userIds = [] } = (location.state as ChatLocationState) || {}; 
 
     const [users, setUsers] = useState<User[]>([]); 
@@ -87,14 +86,10 @@ const Chat = () => {
     }
     const currentUser: User | undefined = users.find(user => user.id === id);
     return (
-        <div className='loginContainer'>
+        <div className='Container'>
             <div className='chat-container'>
                 <h2>{getChatTitle(users)}</h2>
-                <p>Carga {currentUser?.userName} </p>
                 <UserChat chatId={chatId} currentUser={currentUser} allUsers={users}/>
-                <button className='backButton' onClick={() => navigate('/dashboard')}>
-                    Regresar
-                </button>
             </div>
         </div>
     );
