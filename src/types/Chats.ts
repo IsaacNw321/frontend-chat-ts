@@ -15,3 +15,9 @@ export interface ChatWithMessages extends Chat {
 export interface PostChatPayload {
   userIds: string[];
 }
+
+export interface UserChatProps {
+    chatId: string;
+    currentUser: User | undefined;
+    allUsers: User[];
+}

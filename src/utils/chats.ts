@@ -45,15 +45,15 @@ export type postMessage = Omit<Message, 'id' | 'createdAt' | 'fromId' | 'chatId'
 
 
 export const sendMessage = async (messagePayload: postMessage): Promise<Message> => {
-    const response = await apiClient.post<Message>(`/chats/${messagePayload.chatId}/messages`, messagePayload);
+    const response = await apiClient.post<Message>(`/messages`, messagePayload);
     if (response.status !== 201) {
         throw new Error(response.statusText || "Failed to send message");
     }
     return response.data;
 }
 
-export const getMessagesForChat = async (chatId: string): Promise<Message[]> => {
-    const response = await apiClient.get<Message[]>(`/chats/${chatId}/messages`);
+export const getMessagesForChat = async (chatId: string): Promise<ChatWithMessages> => {
+    const response = await apiClient.get<ChatWithMessages>(`/chats/${chatId}`);
     if (response.status !== 200) {
         throw new Error(response.statusText || "Failed to fetch messages");
     }

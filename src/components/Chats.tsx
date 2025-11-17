@@ -5,17 +5,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getChatByUsers } from '../utils/chats'; 
 import '../styles/sessions.css'
 import { type ChatWitUsers, type User } from '../types';
+import useAuth from '../hooks/useAuth';
 interface ChatLocationState {
     userIds: string[]; 
 }
 
 const Chat = () => {
+    const {id} = useAuth()
     const location = useLocation();
     const navigate = useNavigate();
     const { userIds = [] } = (location.state as ChatLocationState) || {}; 
 
     const [users, setUsers] = useState<User[]>([]); 
-    const [chatId, setChatId] = useState<String | undefined>(undefined);
+    const [chatId, setChatId] = useState<string | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -35,8 +37,9 @@ const Chat = () => {
             console.log(chatResult?.id, "API response existing chat");
 
             if (chatResult) {
-                console.log("Using existing chat data.");
+                console.log("Using existing chat data.", chatResult.users);
                 usersInChat = chatResult.users; 
+                setUsers(usersInChat)
             } else {             
                 chatResult = await createChat({ userIds: userIds });
 
@@ -82,12 +85,13 @@ const Chat = () => {
             </div>
         );
     }
-
+    const currentUser: User | undefined = users.find(user => user.id === id);
     return (
         <div className='loginContainer'>
             <div className='chat-container'>
                 <h2>{getChatTitle(users)}</h2>
-                <UserChat chatId={chatId} currentUser={users[0]} allUsers={users}/>
+                <p>Carga {currentUser?.userName} </p>
+                <UserChat chatId={chatId} currentUser={currentUser} allUsers={users}/>
                 <button className='backButton' onClick={() => navigate('/dashboard')}>
                     Regresar
                 </button>
