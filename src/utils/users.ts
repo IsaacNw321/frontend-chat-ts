@@ -5,7 +5,7 @@ import * as qs from 'qs';
 import { type AuthState } from "../context/AuthProvider";
 import type { SetStateAction } from "react";
 export const apiClient = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: `${import.meta.env.VITE_BACKEND_URL_AUTH}`,
   withCredentials: true, 
   paramsSerializer: params => {
         return qs.stringify(params, { arrayFormat: 'repeat' });
@@ -13,7 +13,7 @@ export const apiClient = axios.create({
 });
 
 export const axiosPrivate = axios.create({
-  baseURL : 'http://localhost:3000',
+  baseURL : `${import.meta.env.VITE_BACKEND_URL_AUTH}`,
   withCredentials : true
 })
 
