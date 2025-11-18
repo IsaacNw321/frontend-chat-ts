@@ -23,8 +23,7 @@ export const Register = () => {
   const registerMutation = useMutation({
     mutationFn: (data: postUser) => createUser(data),
     
-    onSuccess: (user, variables) => {
-      console.log("Registro exitoso. Respuesta de la API:", user, variables);
+    onSuccess: () => {
       reset(); 
       navigate("/login"); 
     },

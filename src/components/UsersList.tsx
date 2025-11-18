@@ -22,7 +22,6 @@ export const UserList = () => {
         if (isError) {
             navigate('/');
         }
-        console.log(users, "I'm getting")
     }, [isError, navigate]);
     if (isLoading) {
         return <div className="user-list-status">Cargando usuarios...</div>;

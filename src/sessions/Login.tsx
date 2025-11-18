@@ -23,7 +23,6 @@ export const Login = () => {
   const loginMutation = useMutation({
     mutationFn: (data: LoginFormFields) => loginUser(data),
     onSuccess: (response) => {
-      console.log("Login exitoso. Respuesta de la API:", response);
       setAuth(response)
       reset()
       navigate("/dashboard")

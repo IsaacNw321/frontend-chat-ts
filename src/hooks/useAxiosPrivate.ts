@@ -4,7 +4,6 @@ import useAuth from "./useAuth";
 import useRefreshToken from "./useRefreshToken";
 const useAxiosPrivate = () => {
     const { auth } = useAuth();
-    console.log(auth, "from USEaxios")
     const refresh = useRefreshToken();
 
     useEffect(() => {
@@ -26,7 +25,6 @@ const useAxiosPrivate = () => {
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
-                    console.log(newAccessToken, "from useAxiosPrivate")
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
                     return axiosPrivate(prevRequest);
                 }

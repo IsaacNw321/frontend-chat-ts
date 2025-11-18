@@ -21,7 +21,6 @@ const Chat = () => {
 
     useEffect(() => {
     if (userIds.length < 2) {
-        console.error('A chat must have at least two User IDs.');
         setIsLoading(false);
         return;
     }
@@ -33,20 +32,15 @@ const Chat = () => {
 
         try {
             chatResult = await getChatByUsers(userIds); 
-            console.log(chatResult?.id, "API response existing chat");
-
             if (chatResult) {
-                console.log("Using existing chat data.", chatResult.users);
                 usersInChat = chatResult.users; 
                 setUsers(usersInChat)
             } else {             
                 chatResult = await createChat({ userIds: userIds });
 
                 if (chatResult) {
-                    console.log("Chat successfully created.");
                     usersInChat = chatResult.users;
                 } else {
-                    console.error('Failed to create chat.');
                     setIsLoading(false);
                     return; 
                 }

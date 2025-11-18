@@ -21,7 +21,6 @@ export const UserChat = ({ chatId, currentUser, allUsers }: UserChatProps) => {
         const loadMessages = async () => {
             try {
                 const chatData = await getMessagesForChat(chatId); 
-                console.log(chatData)
                 const savedMessages = chatData.messages;
 
                 const initialMessages = savedMessages.map(msg => ({

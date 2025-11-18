@@ -19,7 +19,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     
     const handleLogout = async () => {
         try {
-            console.log("Logout initiated: Calling /auth/logout to clear HTTP-only cookie...");
             const response = await apiClient.post('/auth/logout'); 
             console.log(response)
             setAuth({}); 
