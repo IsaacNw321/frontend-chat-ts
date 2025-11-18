@@ -5,6 +5,7 @@ import "../styles/sessions.css";
 import { registerSchema, type RegisterFormValues } from "../validations/registerSchema";
 import { createUser } from "../utils/users";
 import { useNavigate } from "react-router-dom";
+import type { postUser } from "../types";
 
 
 export const Register = () => {
@@ -20,7 +21,7 @@ export const Register = () => {
   });
   
   const registerMutation = useMutation({
-    mutationFn: (data: RegisterFormValues) => createUser(data),
+    mutationFn: (data: postUser) => createUser(data),
     
     onSuccess: (user, variables) => {
       console.log("Registro exitoso. Respuesta de la API:", user, variables);
@@ -36,7 +37,9 @@ export const Register = () => {
   const error = registerMutation.error;
 
   const onSubmit = (data: RegisterFormValues) => {
-    registerMutation.mutate(data);
+    const {confirmpassword, ...result} = data
+    const dataWC = result
+    registerMutation.mutate(dataWC);
   };
 
   return (
@@ -71,7 +74,13 @@ export const Register = () => {
               <span className='errorMessage'>{errors.password.message}</span>
             )}
           </div>
-
+          <div className='formField'>
+            <label htmlFor="confirmpassword">Confirmar Contraseña</label>
+            <input id="confirmpassword" type="password" {...register("confirmpassword")} />
+            {errors.confirmpassword && (
+              <span className='errorMessage'>{errors.confirmpassword.message}</span>
+            )}
+          </div>
 
           <button className='authButton' type="submit" disabled={isPending}>
             {isPending ? "Enviando..." : "Registrarse"}

@@ -1,4 +1,5 @@
-import z from "zod";
+import { z } from "zod";
+
 export const registerSchema = z.object({
   userName: z
     .string()
@@ -11,7 +12,14 @@ export const registerSchema = z.object({
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres")
     .max(128, "La contraseña es demasiado larga"),
+  confirmpassword: z
+    .string()
+    .min(6, "La contraseña debe tener al menos 6 caracteres")
+    .max(128, "La contraseña es demasiado larga"),
+}) 
+.refine((data) => data.password === data.confirmpassword, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmpassword"],
 });
 
-
-export type RegisterFormValues = z.infer<typeof registerSchema>;
+export type RegisterFormValues = z.input<typeof registerSchema>;
