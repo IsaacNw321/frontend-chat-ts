@@ -2,6 +2,7 @@ import "../styles/Landing.css"
 import Logo from "../assets/images/jose-r.jpg"
 import supportChat from "../assets/images/supportChat.png"
 import { Register } from "../sessions/Register";
+import { Masters } from "../components/Masters";
 export default function LandingPage() {
    const year = new Date().getFullYear();
   return (
@@ -66,9 +67,10 @@ export default function LandingPage() {
     </div>
   </section>
   <section style={{marginTop: '20px', marginBottom : '20px', textAlign: 'center'}}>
-    <h3 style={{marginTop: '20px', marginBottom : '20px', textAlign: 'center'}}>
+    <h3 className="masters-title" style={{marginTop: '20px', marginBottom : '20px', textAlign: 'center'}}>
       Nuestro equipo Orientador
     </h3>
+    <Masters/>
  </section>
   <section className="join-section">
     <Register/>

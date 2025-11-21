@@ -4,7 +4,9 @@ import { ButtonsCard } from "./ButtonsCard";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAuth from "../hooks/useAuth";
 export const UserList = () => {
+    const {id} = useAuth()
     const navigate = useNavigate();
     const controller = new AbortController()
       const axiosPrivate = useAxiosPrivate();
@@ -16,12 +18,10 @@ export const UserList = () => {
     }
     
     const { data: users, isLoading, isError } = useApiQuery('users', getUsers); 
-    
     useEffect(() => {
         if (isError) {
             navigate('/');
         }
-        console.log(users, "I'm getting")
     }, [isError, navigate]);
     if (isLoading) {
         return <div className="user-list-status">Cargando usuarios...</div>;
@@ -39,10 +39,10 @@ export const UserList = () => {
         <section className="user-list-container">
            
             <ul className="user-cards-grid">
-                {users.map((user: User) => (
+                {users.filter((user : User) => user.id !== id).map((user: User) => (
                     <li key={user.id} className="user-card">
                         <div className="card-header">
-                            <h3 className="user-name">{user.firstName} {user.lastName || ''}</h3>
+                            <h3 className="user-name">{user.userName}</h3>
                             <ButtonsCard userId={user.id}/>
                         </div>
                     </li>

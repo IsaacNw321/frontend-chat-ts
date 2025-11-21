@@ -5,13 +5,13 @@ interface ButtonsCard {
 }
 export const ButtonsCard = ({ userId  } : ButtonsCard) => {
   const {id} = useAuth()
-  console.log(userId, "mY ID")
     const handleDelete = () => {
         alert(`Confirm delete for user ID: ${userId}`);
     };
     const navigate = useNavigate()
        const startChat = (userId : string) => {
-          navigate('/chat', { state: { userId1: id, userId2: userId } });
+          const userIdsArray = [id, userId]; 
+          navigate('/chat', { state: { userIds: userIdsArray } });
        };
     return (
         <div className="card-actions">

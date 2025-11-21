@@ -1,16 +1,19 @@
 import axios from "axios";
-import type { postUser, User } from "../types";
+import type { postUser, User, updateUser } from "../types";
 import type { LoginFormFields } from "../validations/loginSchema";
-
-
+import * as qs from 'qs';
+import { type AuthState } from "../context/AuthProvider";
+import type { SetStateAction } from "react";
 export const apiClient = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: `${import.meta.env.VITE_BACKEND_URL_AUTH}`,
   withCredentials: true, 
-
+  paramsSerializer: params => {
+        return qs.stringify(params, { arrayFormat: 'repeat' });
+  }
 });
 
 export const axiosPrivate = axios.create({
-  baseURL : 'http://localhost:3000',
+  baseURL : `${import.meta.env.VITE_BACKEND_URL_AUTH}`,
   withCredentials : true
 })
 
@@ -38,7 +41,7 @@ export const createUser = async (user: postUser): Promise<User> => {
   return response.data;
 };
 
-export const loginUser = async (credentials: LoginFormFields): Promise<any> => {
+export const loginUser = async (credentials: LoginFormFields): Promise<SetStateAction<AuthState>> => {
   const response = await apiClient.post("/auth/login", credentials);
   if (response.status !== 200) {
     throw new Error(response.statusText || "Login failed");
@@ -54,11 +57,10 @@ export const deleteUser = async (id: string): Promise<void> => {
 };
 
 
-export const patchUser = async (id: string, data: Partial<User>): Promise<User> => {
+export const patchUser = async (id: string, data: updateUser): Promise<User> => {
   const response = await apiClient.patch<User>(`/users/${id}`, data);
   if (response.status !== 200) {
     throw new Error(response.statusText || "Failed to update user");
   }
   return response.data;
-
 }

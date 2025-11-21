@@ -146,6 +146,10 @@ body {
   font-weight: 500;
 }
 
+.masters-title{
+  font-size: 40px;
+}
+
 .footer {
   background-color: var(--accent-color);
   color: white;
@@ -160,7 +164,9 @@ body {
     margin: 0 auto;
     max-width: 360px;
   }
-
+  .masters-title{
+  font-size: 28px;
+}
   .header {
     width: 100%;
     flex-direction: column;
