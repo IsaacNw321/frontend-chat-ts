@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { Role } from "../types";
 interface ButtonsCard {
   userId : string
 }
 export const ButtonsCard = ({ userId  } : ButtonsCard) => {
-  const {id} = useAuth()
+  const {id, role} = useAuth()
     const handleDelete = () => {
-        alert(`Confirm delete for user ID: ${userId}`);
+        alert(`This is not working yet`);
     };
     const navigate = useNavigate()
        const startChat = (userId : string) => {
@@ -21,12 +22,15 @@ export const ButtonsCard = ({ userId  } : ButtonsCard) => {
             >
                 Empezar Chat
             </button>
+            {
+              role === Role.USER ? null :   
             <button 
                 onClick={handleDelete}
                 className="action-button secondary-btn delete-btn"
             >
                 Eliminar
             </button>
+            }
         </div>
     );
 }
