@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
+import { useFilteredUsers } from "../hooks/useFilters";
+import { Filters } from "./FiltersSelect";
 export const UserList = () => {
     const {id} = useAuth()
     const navigate = useNavigate();
@@ -23,6 +25,7 @@ export const UserList = () => {
             navigate('/');
         }
     }, [isError, navigate]);
+    const filteredUsers = useFilteredUsers(users)
     if (isLoading) {
         return <div className="user-list-status">Cargando usuarios...</div>;
     }
@@ -37,9 +40,9 @@ export const UserList = () => {
     }
     return (
         <section className="user-list-container">
-           
+           <Filters/>
             <ul className="user-cards-grid">
-                {users.filter((user : User) => user.id !== id).map((user: User) => (
+                {filteredUsers.filter((user : User) => user.id !== id).map((user: User) => (
                     <li key={user.id} className="user-card">
                         <div className="card-header">
                             <h3 className="user-name">{user.userName}</h3>
