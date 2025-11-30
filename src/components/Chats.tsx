@@ -82,7 +82,7 @@ const Chat = () => {
     return (
         <div className='Container'>
             <div className='chat-container'>
-                <h2>{getChatTitle(users)}</h2>
+                <h2 className='titleChat'>{getChatTitle(users)}</h2>
                 <UserChat chatId={chatId} currentUser={currentUser} allUsers={users}/>
             </div>
         </div>

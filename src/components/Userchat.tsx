@@ -88,7 +88,6 @@ export const UserChat = ({ chatId, currentUser, allUsers }: UserChatProps) => {
 
     return (
         <>
-        <div className="chat-container">
             <ul className="messages-list">
                 {messages.map((msg, index) => (
                     <li 
@@ -119,7 +118,6 @@ export const UserChat = ({ chatId, currentUser, allUsers }: UserChatProps) => {
                     Enviar
                 </button>
             </form>
-        </div>
         </>
     );
 };
