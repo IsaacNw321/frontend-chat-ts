@@ -42,7 +42,7 @@ export const Register = () => {
   };
 
   return (
-    <section className='loginContainer'>
+    <section className='authContainer'>
       <div className='formContainer'>
         <form className='authForm' onSubmit={handleSubmit(onSubmit)} noValidate>
           <h2 className='formTitle'>Unete a nuestra comunidad de apoyo</h2>

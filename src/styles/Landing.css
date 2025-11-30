@@ -64,6 +64,7 @@ body {
 .hero-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 1.5rem;
 }
@@ -156,7 +157,6 @@ body {
   text-align: center;
   padding: 2rem;
   border-radius: 10px;
-  margin-top: 4rem;
 }
 
 @media (max-width: 500px) {
