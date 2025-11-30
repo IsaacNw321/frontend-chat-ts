@@ -1,6 +1,5 @@
 import { useApiQuery } from "../hooks/useApi";
 import { Role, type User } from "../types";
-import { ButtonsCard } from "./ButtonsCard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"; 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -8,6 +7,7 @@ import useAuth from "../hooks/useAuth";
 import { useFilteredUsers } from "../hooks/useFilters";
 import { Filters } from "./FiltersSelect";
 import { Searcher } from "./Searcher"; 
+import { UserCard } from "./UserCard";
 
 export const UserList = () => {
     const {id, role} = useAuth()
@@ -67,12 +67,7 @@ export const UserList = () => {
             
             <ul className="user-cards-grid">
                 {finalFilteredUsers.filter((user : User) => user.id !== id).map((user: User) => (
-                    <li key={user.id} className="user-card">
-                        <div className="card-header">
-                            <h3 className="user-name">{user.userName}</h3>
-                        </div>
-                            <ButtonsCard userId={user.id}/>
-                    </li>
+                  <UserCard key={user.id} user={user} />
                 ))}
             </ul>
         </section>
