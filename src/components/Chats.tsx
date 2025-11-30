@@ -1,18 +1,52 @@
 import { useState, useEffect } from 'react';
 import { UserChat } from './Userchat';
-import { createChat } from '../utils/chats';
+import { type PostChatPayload } from '../types';
 import { useLocation } from 'react-router-dom';
-import { getChatByUsers } from '../utils/chats'; 
+import axios from 'axios';
 import '../styles/sessions.css'
 import { type ChatWitUsers, type User } from '../types';
 import useAuth from '../hooks/useAuth';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 interface ChatLocationState {
     userIds: string[]; 
 }
 
 const Chat = () => {
+    const axiosPrivate = useAxiosPrivate()
     const {id} = useAuth()
     const location = useLocation();
+     const controller = new AbortController()
+    const getChatByUsers = async (userIds: string[]): Promise<ChatWitUsers | undefined> => {
+  try {
+    const response = await axiosPrivate.get<ChatWitUsers>(`/chats/find`, {
+      params: {
+     userIds: userIds
+      },
+    signal : controller.signal
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return undefined;
+    }
+    throw error;
+  }
+}
+ const createChat = async (payload : PostChatPayload): Promise<ChatWitUsers> =>{
+ try {
+  const response = await axiosPrivate.post<ChatWitUsers>(`/chats`, payload,{
+      signal : controller.signal
+  });
+  return response.data;
+ } catch (error) {
+
+    if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to create chat");
+    }
+  throw error;
+ }
+}
+
     const { userIds = [] } = (location.state as ChatLocationState) || {}; 
 
     const [users, setUsers] = useState<User[]>([]); 

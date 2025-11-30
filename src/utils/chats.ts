@@ -1,11 +1,11 @@
 import type { ChatWithMessages, ChatWitUsers, PostChatPayload } from "../types/Chats";
 import axios from "axios";
-import type { Message } from "../types/Messages";
+import type { Message, postMessage } from "../types/Messages";
 import { apiClient } from "./users"; 
-import { axiosPrivate } from "./users";
+
 export const getChatByUsers = async (userIds: string[]): Promise<ChatWitUsers | undefined> => {
   try {
-    const response = await axiosPrivate.get<ChatWitUsers>(`/chats/find`, {
+    const response = await apiClient.get<ChatWitUsers>(`/chats/find`, {
       params: {
      userIds: userIds
       },
@@ -45,10 +45,6 @@ export const getChatById = async (chatId: string): Promise<ChatWithMessages> => 
     }
 }
 
-export type postMessage = Omit<Message, 'id' | 'createdAt' | 'fromId' | 'chatId'> & {
-  fromId: string;
-  chatId: string;
-};
 
 export const sendMessage = async (messagePayload: postMessage): Promise<Message> => {
     try {

@@ -15,7 +15,10 @@ export const apiClient = axios.create({
 
 export const axiosPrivate = axios.create({
  baseURL : `${import.meta.env.VITE_BACKEND_URL_AUTH}`,
- withCredentials : true
+ withCredentials : true,
+  paramsSerializer: params => {
+    return qs.stringify(params, { arrayFormat: 'repeat' });
+ }
 })
 
 
