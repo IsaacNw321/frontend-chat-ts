@@ -23,7 +23,7 @@ export const ButtonsCard = ({ userId } : ButtonsCardProps) => {
   onSuccess: () => {
 
    queryClient.invalidateQueries({ queryKey: ['users'] }); 
-  alert(`User ${userId} deleted successfully.`);
+  alert(`Usuario eliminado.`);
   },
   onError: (error) => {
    console.error("Deletion failed:", error);

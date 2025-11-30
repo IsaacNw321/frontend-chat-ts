@@ -24,3 +24,9 @@ export interface Master {
   profession: string;
   description: string;
 }
+
+export interface SearcherProps {
+  users: User[];
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+}

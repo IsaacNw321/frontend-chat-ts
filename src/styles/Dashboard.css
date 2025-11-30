@@ -55,7 +55,7 @@
 
 .card-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     border-bottom: 2px solid var(--primary-color); 
     padding-bottom: 10px;
@@ -92,7 +92,6 @@
 .card-actions {
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid #e9ecef;
     display: flex;
     flex-direction: column; 
     gap: 10px; 
@@ -202,5 +201,73 @@
         width: 100%;
         max-width: 300px; 
         font-size: 0.95rem;
+    }
+}
+
+
+.searcher-container {
+    position: relative;
+    max-width: 400px; 
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color, #ccc);
+    border-radius: 8px; 
+    font-size: 16px;
+    color: var(--text-color, #333);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px var(--secondary-color); 
+}
+
+.search-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%; 
+    left: 15px; 
+    right: 15px; 
+    z-index: 10;
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 0 0 8px 8px; 
+    background-color: white;
+    box-shadow: 0 4px 8px var(--shadow-light);
+    overflow: hidden;
+}
+
+.suggestions-list li {
+    padding: 10px 15px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #eee; 
+}
+
+.suggestions-list li:last-child {
+    border-bottom: none;
+}
+
+.suggestions-list li:hover {
+    background-color: color-mix(in srgb, var(--primary-color) 15%, white);
+    color: var(--text-color, #333);
+}
+@media (min-width: 600px) {
+    .searcher-container {
+        padding: 0; 
+    }
+    .suggestions-list {
+        left: 0;
+        right: 0;
     }
 }
