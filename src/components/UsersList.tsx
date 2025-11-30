@@ -47,29 +47,29 @@ export const UserList = () => {
     if (isError) {
         return <div className="user-list-status user-list-error">Ha habido un error al cargar los usuarios.</div>;
     }
-
-    if (!finalFilteredUsers || finalFilteredUsers.length === 0) {
-        return <div className="user-list-status">No hay usuarios disponibles.</div>;
-    }
-    
     return (
-        <section className="user-list-container">
-            {role === Role.SUPERUSER ? (
-                <>
-                    <Filters/>
-                    <Searcher 
-                        users={roleFilteredData} 
-                        searchTerm={searchTerm} 
-                        setSearchTerm={setSearchTerm} 
-                    />
-                </>
-            ) : null}
-            
+    <section className="user-list-container">
+        {role === Role.SUPERUSER ? (
+            <>
+                <Filters/>
+                <Searcher 
+                    users={roleFilteredData} 
+                    searchTerm={searchTerm} 
+                    setSearchTerm={setSearchTerm} 
+                />
+            </>
+        ) : null}
+        {finalFilteredUsers.length === 0 ? (
+            <div className="user-list-status">
+                No se encontraron resultados para "{searchTerm}".
+            </div>
+        ) : (
             <ul className="user-cards-grid">
                 {finalFilteredUsers.filter((user : User) => user.id !== id).map((user: User) => (
-                  <UserCard key={user.id} user={user} />
+                    <UserCard key={user.id} user={user} />
                 ))}
             </ul>
-        </section>
-    );
+        )}
+    </section>
+);
 }

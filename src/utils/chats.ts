@@ -2,10 +2,10 @@ import type { ChatWithMessages, ChatWitUsers, PostChatPayload } from "../types/C
 import axios from "axios";
 import type { Message } from "../types/Messages";
 import { apiClient } from "./users"; 
-
+import { axiosPrivate } from "./users";
 export const getChatByUsers = async (userIds: string[]): Promise<ChatWitUsers | undefined> => {
   try {
-    const response = await apiClient.get<ChatWitUsers>(`/chats/find`, {
+    const response = await axiosPrivate.get<ChatWitUsers>(`/chats/find`, {
       params: {
      userIds: userIds
       },
