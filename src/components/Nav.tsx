@@ -29,8 +29,8 @@ function Navigation() {
         <span></span>
       </button>
       <ul className={`nav-menu ${menuActive ? "active" : ""}`}>
+          {isLoggedIn ?  <li> <Link to="/dashboard">Empezar a chatear</Link> </li> : null}  
         <li>
-          {isLoggedIn ? <Link to="/dashboard">Empezar a chatear</Link> : null}
           {
             isLoggedIn ? 
             <button onClick={onLogout} className="button">

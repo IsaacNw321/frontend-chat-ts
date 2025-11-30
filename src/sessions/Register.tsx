@@ -42,8 +42,8 @@ export const Register = () => {
   };
 
   return (
-    <section className='loginContainer'>
-      <div className='formContainer'>
+    <section className='authContainer'>
+      <div className='formContaineR'>
         <form className='authForm' onSubmit={handleSubmit(onSubmit)} noValidate>
           <h2 className='formTitle'>Unete a nuestra comunidad de apoyo</h2>
           {isError && (
