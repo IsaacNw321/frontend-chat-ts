@@ -66,9 +66,14 @@ export const loginUser = async (credentials: LoginFormFields): Promise<SetStateA
         throw error;
     }
 };
-export const deleteUser = async (id: string): Promise<void> => {
+export const deleteUser = async (id: string| null): Promise<boolean| undefined> => {
     try {
-        await apiClient.delete(`/users/${id}`);
+        const response = await axiosPrivate.delete(`/users/${id}`);
+        if(response.status === 200){
+           return true 
+        } else{
+            return false
+        }
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to delete user");
