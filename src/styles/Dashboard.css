@@ -281,3 +281,8 @@
         right: 0;
     }
 }
+
+.chat-group-maker-panel{
+  max-width: 300px;
+  background-color: var(--secondary-color);  
+}

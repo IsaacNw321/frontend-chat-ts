@@ -1,9 +1,6 @@
 import { create } from 'zustand';
+import type { User } from '../types';
 
-export interface User {
-  id: number | string;
-  name: string;
-}
 
 export interface ChatStoreState {
   selectedUsers: User[];

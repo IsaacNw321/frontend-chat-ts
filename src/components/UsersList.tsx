@@ -8,6 +8,7 @@ import { useFilteredUsers } from "../hooks/useFilters";
 import { Filters } from "./FiltersSelect";
 import { Searcher } from "./Searcher"; 
 import { UserCard } from "./UserCard";
+import { ChatGroupMaker } from "./ChatGroupMaker";
 
 export const UserList = () => {
     const {id, role} = useAuth()
@@ -47,8 +48,10 @@ export const UserList = () => {
     if (isError) {
         return <div className="user-list-status user-list-error">Ha habido un error al cargar los usuarios.</div>;
     }
+    
     return (
     <section className="user-list-container">
+        <ChatGroupMaker />
         {role === Role.SUPERUSER ? (
             <>
                 <Filters/>
@@ -59,6 +62,7 @@ export const UserList = () => {
                 />
             </>
         ) : null}
+        
         {finalFilteredUsers.length === 0 ? (
             <div className="user-list-status">
                 No se encontraron resultados para "{searchTerm}".
