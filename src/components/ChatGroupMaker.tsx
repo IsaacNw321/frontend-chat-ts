@@ -1,6 +1,11 @@
 import useChatStore from '../zustand/useChatStore';
 
-export const ChatGroupMaker: React.FC = () => {
+interface ChatGroupMakerProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const ChatGroupMaker: React.FC<ChatGroupMakerProps> = ({ isOpen, onClose }) => {
   const { selectedUsers, removeUser, clearSelectedUsers } = useChatStore();
 
   const handleCreateGroup = () => {
@@ -12,42 +17,81 @@ export const ChatGroupMaker: React.FC = () => {
     console.log("Creating group with users:", userIds);
 
     alert(`Group Chat created with ${selectedUsers.length} users! (API call placeholder)`);
-    clearSelectedUsers(); 
+    clearSelectedUsers();
+    onClose(); 
+  };
+
+  const asideStyle: React.CSSProperties = {
+    position: 'fixed', 
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '350px',
+    boxShadow: '2px 0 5px rgba(0,0,0,0.5)',
+    zIndex: 1000,
+    padding: '20px',
+    transition: 'transform 0.3s ease-in-out',
+    transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+    display: 'flex',
+    flexDirection: 'column',
+  };
+  const usersContainerStyle: React.CSSProperties = {
+    flexGrow: 1, 
+    overflowY: 'auto', 
+    maxHeight: 'calc(100vh - 200px)', 
+    marginBottom: '15px',
   };
 
   return (
-    <div className="chat-group-maker-panel" style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px', marginBottom: '20px' }}>
-      <h2>👥 Crear Chat Grupal</h2>
+    <aside className="chat-group-maker-aside" style={asideStyle}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+        <h2>👥 Crear Chat Grupal</h2>
+        <button
+          onClick={onClose}
+          style={{ 
+            fontSize: '1.5rem', 
+            border: 'none', 
+            background: 'none', 
+            cursor: 'pointer',
+            color: '#333'
+          }}
+        >
+          &times; 
+        </button>
+      </div>
+
+      <hr style={{ border: '0', borderTop: '1px solid #eee', margin: '10px 0' }} />
       
       {selectedUsers.length > 0 ? (
         <>
           <p>
             Usuarios seleccionados: {selectedUsers.length}
-            {selectedUsers.length > 0 && 
-              <button 
-                onClick={clearSelectedUsers} 
-                style={{ marginLeft: '10px', color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}
-              >
-                (Quitar todos)
-              </button>
-            }
+            <button 
+              onClick={clearSelectedUsers} 
+              style={{ marginLeft: '10px', color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}
+            >
+              (Quitar todos)
+            </button>
           </p>
-          <ul className="selected-users-list" style={{ listStyle: 'none', padding: 0 }}>
-            {selectedUsers.map(user => (
-              <li key={user.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0' }}>
-                {user.userName}
-                <button 
-                  onClick={() => removeUser(user.id)}
-                  style={{ color: 'blue', border: 'none', background: 'none', cursor: 'pointer' }}
-                >
-                  (Quitar)
-                </button>
-              </li>
-            ))}
-          </ul>
+          
+          <div style={usersContainerStyle}>
+            <ul className="selected-users-list" style={{ listStyle: 'none', padding: 0 }}>
+              {selectedUsers.map(user => (
+                <li key={user.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px dotted #eee' }}>
+                  {user.userName}
+                  <button 
+                    onClick={() => removeUser(user.id)}
+                    style={{ color: 'blue', border: 'none', background: 'none', cursor: 'pointer' }}
+                  >
+                    (Quitar)
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </>
       ) : (
-        <p>Selecciona los usuarios para el grupo minimo 2.</p>
+        <p>Selecciona los usuarios para el grupo (mínimo 2).</p>
       )}
 
       <button 
@@ -60,11 +104,11 @@ export const ChatGroupMaker: React.FC = () => {
           border: 'none', 
           borderRadius: '4px',
           cursor: selectedUsers.length >= 2 ? 'pointer' : 'not-allowed',
-          marginTop: '10px'
+          marginTop: 'auto' 
         }}
       >
         Crear Grupo ({selectedUsers.length})
       </button>
-    </div>
+    </aside>
   );
 };

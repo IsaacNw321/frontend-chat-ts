@@ -282,7 +282,11 @@
     }
 }
 
-.chat-group-maker-panel{
-  max-width: 300px;
+.chat-group-maker-aside{
+  max-width: 230px;
   background-color: var(--secondary-color);  
+}
+
+.gm{
+    background-color: var(--secondary-color);  
 }

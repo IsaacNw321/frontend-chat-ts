@@ -16,7 +16,7 @@ export const UserList = () => {
     const controller = new AbortController()
     const axiosPrivate = useAxiosPrivate();
     const [searchTerm, setSearchTerm] = useState(''); 
-
+    const [isGroupMakerOpen, setIsGroupMakerOpen] = useState(false);
     const getUsers = async() =>{
         const users = await axiosPrivate.get('/users',{
             signal : controller.signal
@@ -51,7 +51,6 @@ export const UserList = () => {
     
     return (
     <section className="user-list-container">
-        <ChatGroupMaker />
         {role === Role.SUPERUSER ? (
             <>
                 <Filters/>
@@ -61,8 +60,26 @@ export const UserList = () => {
                     setSearchTerm={setSearchTerm} 
                 />
             </>
-        ) : null}
-        
+        ) : null}     
+        <div style={{ marginBottom: '20px' }}>
+            <button 
+                onClick={() => setIsGroupMakerOpen(prevState => !prevState)}
+                style={{ 
+                    padding: '10px 15px', 
+                    backgroundColor: '#007bff', 
+                    color: 'white', 
+                    border: 'none', 
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                }}
+            >
+                ➕ Iniciar Chat Grupal
+            </button>
+        </div>
+        <ChatGroupMaker
+           isOpen={isGroupMakerOpen} 
+           onClose={() => setIsGroupMakerOpen(false)}
+        />     
         {finalFilteredUsers.length === 0 ? (
             <div className="user-list-status">
                 No se encontraron resultados para "{searchTerm}".
