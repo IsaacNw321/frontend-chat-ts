@@ -27,7 +27,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user}) => {
             </div>
             <button 
         onClick={handleToggleUser}
-        className={`select-group-btn ${isSelected ? 'remove' : 'add'}`}
+        className={`action-button ${isSelected ? 'remove' : 'add'}`}
         style={{ marginTop: '10px' ,padding: '8px 12px', cursor: 'pointer', borderRadius: '4px' }}
       >
         {isSelected ? '❌ Remove' : '➕ Add to Group'}

@@ -1,5 +1,5 @@
 import { useApiQuery } from "../hooks/useApi";
-import { Role, type User } from "../types";
+import { Role, type ChatWitUsers, type User } from "../types";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react"; 
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -9,6 +9,7 @@ import { Filters } from "./FiltersSelect";
 import { Searcher } from "./Searcher"; 
 import { UserCard } from "./UserCard";
 import { ChatGroupMaker } from "./ChatGroupMaker";
+import { MyChats } from "./MyChats";
 
 export const UserList = () => {
     const {id, role} = useAuth()
@@ -48,7 +49,9 @@ export const UserList = () => {
     if (isError) {
         return <div className="user-list-status user-list-error">Ha habido un error al cargar los usuarios.</div>;
     }
-    
+    const currentUser = users.find((user: User) => user.id === id)
+    const chats: ChatWitUsers[] = currentUser?.chats
+    console.log(chats)
     return (
     <section className="user-list-container">
         {role === Role.SUPERUSER ? (
@@ -90,6 +93,9 @@ export const UserList = () => {
                     <UserCard key={user.id} user={user} />
                 ))}
             </ul>
+        )}
+        {chats.length === 0 ? null : (    
+                <MyChats chats={chats} />
         )}
     </section>
 );

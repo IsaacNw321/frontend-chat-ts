@@ -21,3 +21,7 @@ export interface UserChatProps {
     currentUser: User | undefined;
     allUsers: User[];
 }
+
+export interface UserChats {
+  chats : ChatWitUsers[];
+}
