@@ -1,5 +1,6 @@
 import useChatStore from '../zustand/useChatStore';
-
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 interface ChatGroupMakerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -7,16 +8,17 @@ interface ChatGroupMakerProps {
 
 export const ChatGroupMaker: React.FC<ChatGroupMakerProps> = ({ isOpen, onClose }) => {
   const { selectedUsers, removeUser, clearSelectedUsers } = useChatStore();
-
+  const {id} = useAuth()
+   const navigate = useNavigate()
   const handleCreateGroup = () => {
     if (selectedUsers.length < 2) {
       alert('You need at least two other users to create a group chat.');
       return;
     }
     const userIds = selectedUsers.map(u => u.id);
-    console.log("Creating group with users:", userIds);
-
-    alert(`Group Chat created with ${selectedUsers.length} users! (API call placeholder)`);
+    const userIdsArray = [...userIds, id]; 
+    console.log("Creating group with users:", userIdsArray);
+    navigate('/chat', { state: { userIds: userIdsArray } });
     clearSelectedUsers();
     onClose(); 
   };
