@@ -13,7 +13,7 @@ export const MyChats: React.FC<UserChats> = ({chats}) => {
   return (
     <div>
       <h3 className="title-chats">
-        Conversaciones anteriores
+        { chats.length === 0 ? "Sin chats creados" : "Conversaciones anteriores"}
       </h3>
       <ul className="user-cards-grid">
         {chats.length === 0 ? null : (

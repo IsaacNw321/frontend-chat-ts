@@ -16,12 +16,9 @@ export const UserCard: React.FC<UserCardProps> = ({ user}) => {
       addUser(user);
     }
   };
-  const handleCardClick = () => {
-    console.log("creating")
-    // navigate(`/user/${user.id}`); 
-  };
+
     return (
-        <li key={user.id} className="user-card" onClick={handleCardClick}>
+        <li key={user.id} className="user-card">
             <div className="card-header">
                 <h3 className="user-name">{user.userName}</h3>
             </div>
@@ -30,7 +27,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user}) => {
         className={`action-button ${isSelected ? 'remove' : 'add'}`}
         style={{ marginTop: '10px' ,padding: '8px 12px', cursor: 'pointer', borderRadius: '4px' }}
       >
-        {isSelected ? '❌ Remove' : '➕ Add to Group'}
+        {isSelected ? ' Remove' : ' Add to Group'}
       </button>
             <ButtonsCard userId={user.id}/>
         </li>

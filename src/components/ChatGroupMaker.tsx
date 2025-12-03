@@ -17,7 +17,6 @@ export const ChatGroupMaker: React.FC<ChatGroupMakerProps> = ({ isOpen, onClose 
     }
     const userIds = selectedUsers.map(u => u.id);
     const userIdsArray = [...userIds, id]; 
-    console.log("Creating group with users:", userIdsArray);
     navigate('/chat', { state: { userIds: userIdsArray } });
     clearSelectedUsers();
     onClose(); 

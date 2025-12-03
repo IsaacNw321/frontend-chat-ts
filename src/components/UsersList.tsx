@@ -51,7 +51,6 @@ export const UserList = () => {
     }
     const currentUser = users.find((user: User) => user.id === id)
     const chats: ChatWitUsers[] = currentUser?.chats
-    console.log(chats)
     return (
     <section className="user-list-container">
         {role === Role.SUPERUSER ? (
@@ -94,7 +93,7 @@ export const UserList = () => {
                 ))}
             </ul>
         )}
-        {chats.length === 0 ? null : (    
+        {chats.length === undefined ? null : (    
                 <MyChats chats={chats} />
         )}
     </section>
