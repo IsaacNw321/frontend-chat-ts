@@ -4,6 +4,7 @@ import type { LoginFormFields } from "../validations/loginSchema";
 import * as qs from 'qs';
 import { type AuthState } from "../context/AuthProvider";
 import type { SetStateAction } from "react";
+import { type AxiosInstance, isAxiosError } from "axios";
 
 export const apiClient = axios.create({
  baseURL: `${import.meta.env.VITE_BACKEND_URL_AUTH}`,
@@ -22,16 +23,21 @@ export const axiosPrivate = axios.create({
 })
 
 
-export const getUsers = async (): Promise<User[]> => {
-    try {
-        const response = await apiClient.get<User[]>("/users");
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to fetch users");
-        }
-        throw error;
+export const getUsers = async (
+  axiosPrivate: AxiosInstance, 
+  signal: AbortSignal
+): Promise<User[]> => {
+  try {
+    const response = await axiosPrivate.get<User[]>("/users", {
+      signal: signal 
+    });
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.code !== 'ERR_CANCELED') {
+      throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to fetch users");
     }
+    throw error;
+  }
 };
 
 export const getUserById = async (id: string): Promise<User> => {
@@ -69,20 +75,26 @@ export const loginUser = async (credentials: LoginFormFields): Promise<SetStateA
         throw error;
     }
 };
-export const deleteUser = async (id: string| null): Promise<boolean| undefined> => {
-    try {
-        const response = await axiosPrivate.delete(`/users/${id}`);
-        if(response.status === 200){
-           return true 
-        } else{
-            return false
-        }
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to delete user");
-        }
-        throw error;
+export const deleteUser = async (
+  axiosPrivate: AxiosInstance, 
+  id: string | null,
+  controller: AbortController 
+): Promise<boolean | undefined> => {
+  try {
+    const response = await axiosPrivate.delete(`/users/${id}`, {
+      signal: controller.signal
+    });
+    if (response.status === 200) {
+      return true;
+    } else {
+      return false;
     }
+  } catch (error) {
+      if (isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to delete user");
+    }
+    throw error;
+  }
 };
 
 export const patchUser = async (id: string, data: updateUser): Promise<User> => {

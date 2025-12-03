@@ -89,6 +89,14 @@
     color: var(--primary-color);
 }
 
+.title-chats{
+  font-weight: 600;
+  font-size: 2.2rem;
+  color: var(--text-color);  
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 .card-actions {
     margin-top: 20px;
     padding-top: 15px;
@@ -112,6 +120,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s, opacity 0.2s;
+    background-color: #007bff;
 }
 
 .action-button:active {
@@ -280,4 +289,13 @@
         left: 0;
         right: 0;
     }
+}
+
+.chat-group-maker-aside{
+  max-width: 230px;
+  background-color: var(--secondary-color);  
+}
+
+.gm{
+    background-color: var(--secondary-color);  
 }
