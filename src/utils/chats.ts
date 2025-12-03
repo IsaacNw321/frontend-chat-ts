@@ -56,26 +56,35 @@ export const getChatById = async (chatId: string): Promise<ChatWithMessages> => 
     }
 }
 
+export const sendMessage = async (
+  axiosPrivate: AxiosInstance,
+  messagePayload: postMessage
+): Promise<Message> => {
+  try {
+    const response = await axiosPrivate.post<Message>(`/messages`, messagePayload);
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to send message");
+    }
+    throw error;
+  }
+};
 
-export const sendMessage = async (messagePayload: postMessage): Promise<Message> => {
-    try {
-        const response = await apiClient.post<Message>(`/messages`, messagePayload);
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to send message");
-        }
-        throw error;
+export const getMessagesForChat = async (
+  axiosPrivate: AxiosInstance,
+  chatId: string,
+  signal: AbortSignal
+): Promise<ChatWithMessages> => {
+  try {
+    const response = await axiosPrivate.get<ChatWithMessages>(`/chats/${chatId}`, {
+      signal: signal
+    });
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.code !== 'ERR_CANCELED') {
+      throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to fetch messages");
     }
-}
-export const getMessagesForChat = async (chatId: string): Promise<ChatWithMessages> => {
-    try {
-        const response = await apiClient.get<ChatWithMessages>(`/chats/${chatId}`);
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to fetch messages");
-        }
-        throw error;
-    }
-}
+    throw error;
+  }
+};
