@@ -2,7 +2,7 @@ export const Role = {
 USER: 'USER',
 SUPERUSER: 'SUPERUSER',
 } as const;
-import type { Chat } from "./Chats";
+import type { ChatWitUsers } from "./Chats";
 export type Role = (typeof Role)[keyof typeof Role];
 
 export interface User {
@@ -11,7 +11,7 @@ export interface User {
   password: string;
   email :string;
   role : Role
-  chats : Chat[]
+  chats : ChatWitUsers[]
 }
 
 export type postUser = Omit<User, 'id' | 'role' | 'chats' | 'messages'| 'role'>;

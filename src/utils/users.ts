@@ -23,16 +23,21 @@ export const axiosPrivate = axios.create({
 })
 
 
-export const getUsers = async (): Promise<User[]> => {
-    try {
-        const response = await apiClient.get<User[]>("/users");
-        return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to fetch users");
-        }
-        throw error;
+export const getUsers = async (
+  axiosPrivate: AxiosInstance, 
+  signal: AbortSignal
+): Promise<User[]> => {
+  try {
+    const response = await axiosPrivate.get<User[]>("/users", {
+      signal: signal 
+    });
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.code !== 'ERR_CANCELED') {
+      throw new Error(error.response?.data?.message || error.response?.statusText || "Failed to fetch users");
     }
+    throw error;
+  }
 };
 
 export const getUserById = async (id: string): Promise<User> => {
